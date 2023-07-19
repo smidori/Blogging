@@ -5,7 +5,7 @@ export interface Post {
     content: string;
     author: string;
     createdDate: Date | null;
-    keyWords: string[];
+    keyWords: string;
     photos?: string[]; // Used for multiple photos
     // likes: number;
     // comments: Comment[];

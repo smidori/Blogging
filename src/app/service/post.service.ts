@@ -35,7 +35,7 @@ export class PostService {
   }
 
   // Update
-  updatePost(post: Post): Observable<Post | undefined> {
+  updatePost(post: Post): Observable<Post> {
     const posts = this.getPostsFromStorage(); // Carrega os posts do localStorage
     const index = posts.findIndex(p => p.id === post.id);
     if (index !== -1) {
@@ -43,7 +43,7 @@ export class PostService {
       this.savePostsToStorage(posts); // Salva os posts atualizados no localStorage
       return of(post);
     }
-    return of(undefined);
+    return of(post);
   }
 
   // Delete

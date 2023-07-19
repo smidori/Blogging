@@ -8,13 +8,13 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
   public appPages = [
-    { title: 'List Posts', url: '/list-post', icon: 'list' },
-    { title: 'New Post', url: '/new-post', icon: 'create' },
-    { title: 'Edit Posts', url: '/folder/favorites', icon: 'pencil' },
+    { title: 'Posts', url: '/list-post', icon: 'list' },
+    { title: 'Add Post', url: '/post', icon: 'add' },
+    { title: 'Manage Posts', url: '/manage-post', icon: 'create' },
 
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
+    // { title: 'Archived', url: '/folder/archived', icon: 'archive' },
+    // { title: 'Trash', url: '/folder/trash', icon: 'trash' },
+    // { title: 'Spam', url: '/folder/spam', icon: 'warning' },
   ];
   //public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   constructor() {}

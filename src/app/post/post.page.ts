@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { NavController } from '@ionic/angular';
+import { tap, catchError, throwError } from 'rxjs';
 import { Post } from '../model/post-interface';
 import { PostService } from '../service/post.service';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
-import { NavController } from '@ionic/angular';
-import { catchError, of, tap, throwError } from 'rxjs';
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'new-post',
-  templateUrl: './new-post.page.html',
-  styleUrls: ['./new-post.page.scss'],
+  selector: 'post',
+  templateUrl: './post.page.html',
+  styleUrls: ['./post.page.scss'],
 })
-export class NewPostPage implements OnInit {
+export class PostPage implements OnInit {
+  typeForm: string = 'New';
+  postId: number = -1;
 
   photoData: string = '';
 
@@ -22,18 +24,40 @@ export class NewPostPage implements OnInit {
     content: '',
     author: '',
     createdDate: null,
-    keyWords: [],
+    keyWords: '',
     photos: [],
-    // likes: 0,
-    // comments: [],
   };
 
-  constructor(
+  constructor(private route: ActivatedRoute,
     private postService: PostService,
     private navCtrl: NavController
   ) { }
 
   ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.postId = Number(params['id']);
+      
+      console.log("edit = " + this.postId);
+      
+      this.postService.getPostById(this.postId).subscribe(
+        (post: Post | undefined) => {
+          if (post) {
+            this.post = post;
+            this.typeForm = 'Update';
+          }  
+          // else {
+          //   console.error('Post not found!');
+          //   // Handle the case when the postId is not found
+          //   this.navCtrl.navigateBack('/list-post');
+          // }
+        },
+        (error) => {
+          console.error('Error fetching post', error);
+        }
+      );
+
+    });
+
   }
 
   //check if all the obligated fields are filled
@@ -79,6 +103,25 @@ export class NewPostPage implements OnInit {
     ).subscribe();
   }
   
+  updatePost() {
+    //Use the postService to persist the post
+    this.postService.updatePost(this.post).pipe(
+      tap((response: Post) => {
+        console.log('Post success saved!', response);
+        
+        this.clearFormData(); //clean the fields
+        // navigate to another page
+        this.navCtrl.navigateForward('/list-post');
+      }),
+      catchError((error) => {
+        console.error('Error saving post', error);
+
+        //return of(this.post); 
+        return throwError(() => 'Error saving post, please try again')
+      })
+    ).subscribe();
+  }
+
   //clean the values from the form
   clearFormData() {
     this.post = {
@@ -88,7 +131,7 @@ export class NewPostPage implements OnInit {
       content: '',
       author: '',
       createdDate: null,
-      keyWords: [],
+      keyWords: '',
       photos: [],
     };
   }
@@ -100,10 +143,4 @@ export class NewPostPage implements OnInit {
     }
   }
   
-
-
-
-
-
-
 }
