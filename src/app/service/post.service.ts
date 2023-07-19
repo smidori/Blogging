@@ -21,26 +21,26 @@ export class PostService {
     return of(post);
   }
 
-  // Read All
+  // get all posts
   getPosts(): Observable<Post[]> {
-    const posts = this.getPostsFromStorage(); // Carrega os posts do localStorage
+    const posts = this.getPostsFromStorage();
     return of(posts);
   }
 
-  // Read One by ID
+  // Get post by id
   getPostById(id: number): Observable<Post | undefined> {
-    const posts = this.getPostsFromStorage(); // Carrega os posts do localStorage
+    const posts = this.getPostsFromStorage();
     const post = posts.find(p => p.id === id);
     return of(post);
   }
 
-  // Update
+  // Update post -> find it, update and save
   updatePost(post: Post): Observable<Post> {
-    const posts = this.getPostsFromStorage(); // Carrega os posts do localStorage
+    const posts = this.getPostsFromStorage(); 
     const index = posts.findIndex(p => p.id === post.id);
     if (index !== -1) {
       posts[index] = post;
-      this.savePostsToStorage(posts); // Salva os posts atualizados no localStorage
+      this.savePostsToStorage(posts); 
       return of(post);
     }
     return of(post);
@@ -48,23 +48,23 @@ export class PostService {
 
   // Delete
   deletePost(id: number): Observable<boolean> {
-    const posts = this.getPostsFromStorage(); // Carrega os posts do localStorage
+    const posts = this.getPostsFromStorage(); 
     const index = posts.findIndex(p => p.id === id);
     if (index !== -1) {
       posts.splice(index, 1);
-      this.savePostsToStorage(posts); // Salva os posts atualizados no localStorage
+      this.savePostsToStorage(posts); 
       return of(true);
     }
     return of(false);
   }
 
-  // Carrega os posts do localStorage
+  // load posts from localStorage
   private getPostsFromStorage(): Post[] {
     const postsString = localStorage.getItem(this.storageKey);
     return postsString ? JSON.parse(postsString) : [];
   }
 
-  // Salva os posts no localStorage
+  // Save posts in the localStorage
   private savePostsToStorage(posts: Post[]): void {
     const postsString = JSON.stringify(posts);
     localStorage.setItem(this.storageKey, postsString);

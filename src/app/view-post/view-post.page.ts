@@ -13,9 +13,9 @@ import { PostService } from '../service/post.service';
 })
 export class ViewPostPage implements OnInit {
   
-  postId: number = -1;
+  postId: number = -1; //use to save the postId from url
 
-  photoData: string = '';
+  photoData: string = ''; //picture data
 
   post: Post = {
     id: new Date().getTime(),
@@ -26,6 +26,8 @@ export class ViewPostPage implements OnInit {
     createdDate: null,
     keyWords: '',
     photos: [],
+    latitude: null,
+    longitude: null
   };
 
   constructor(private route: ActivatedRoute,
@@ -34,30 +36,26 @@ export class ViewPostPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    
     this.route.params.subscribe((params) => {
-      this.postId = Number(params['id']);
+      this.postId = Number(params['id']); //get the id from url
       
       console.log("edit = " + this.postId);
-      
+      //load get the post searching by id
       this.postService.getPostById(this.postId).subscribe(
-        (post: Post | undefined) => {
-          if (post) {
-            this.post = post;
-          }  
-          // else {
-          //   console.error('Post not found!');
-          //   // Handle the case when the postId is not found
-          //   this.navCtrl.navigateBack('/list-post');
-          // }
-        },
-        (error) => {
-          console.error('Error fetching post', error);
+        {
+          next: (post: Post | undefined) => {
+            if (post) {
+              this.post = post;
+            }
+          },
+          error: (error: any) => {
+            console.error('Error fetching post', error);
+          },
         }
       );
 
     });
-  }
-
-   
+  }   
   
 }

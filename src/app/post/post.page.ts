@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { NavController } from '@ionic/angular';
-import { tap, catchError, throwError } from 'rxjs';
+import { tap, catchError, throwError, map } from 'rxjs';
 import { Post } from '../model/post-interface';
 import { PostService } from '../service/post.service';
 import { ActivatedRoute } from '@angular/router';
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'post',
@@ -12,11 +13,11 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./post.page.scss'],
 })
 export class PostPage implements OnInit {
-  typeForm: string = 'New';
-  postId: number = -1;
+  typeForm: string = 'New'; //used to manage to show new or update
+  postId: number = -1; //used to get from param
+  photoData: string = ''; //to save base64
 
-  photoData: string = '';
-
+  //object
   post: Post = {
     id: new Date().getTime(),
     title: '',
@@ -26,6 +27,8 @@ export class PostPage implements OnInit {
     createdDate: null,
     keyWords: '',
     photos: [],
+    latitude: null,
+    longitude: null
   };
 
   constructor(private route: ActivatedRoute,
@@ -40,22 +43,18 @@ export class PostPage implements OnInit {
       console.log("edit = " + this.postId);
       
       this.postService.getPostById(this.postId).subscribe(
-        (post: Post | undefined) => {
-          if (post) {
-            this.post = post;
-            this.typeForm = 'Update';
-          }  
-          // else {
-          //   console.error('Post not found!');
-          //   // Handle the case when the postId is not found
-          //   this.navCtrl.navigateBack('/list-post');
-          // }
-        },
-        (error) => {
-          console.error('Error fetching post', error);
+        {
+          next: (post: Post | undefined) => {
+            if (post) {
+              this.post = post;
+              this.typeForm = 'Update';
+            }
+          },
+          error: (error: any) => {
+            console.error('Error fetching post', error);
+          },
         }
       );
-
     });
 
   }
@@ -84,6 +83,7 @@ export class PostPage implements OnInit {
     this.post.photos?.push(this.photoData);
   }
 
+  //save the post in the local storage
   savePost() {
     //Use the postService to persist the post
     this.postService.savePost(this.post).pipe(
@@ -104,14 +104,15 @@ export class PostPage implements OnInit {
   }
   
   updatePost() {
-    //Use the postService to persist the post
+    //Use the postService to update the post
     this.postService.updatePost(this.post).pipe(
       tap((response: Post) => {
         console.log('Post success saved!', response);
         
         this.clearFormData(); //clean the fields
-        // navigate to another page
-        this.navCtrl.navigateForward('/list-post');
+        // navigate to another root page
+        this.navCtrl.navigateRoot('/list-post');
+
       }),
       catchError((error) => {
         console.error('Error saving post', error);
@@ -133,6 +134,8 @@ export class PostPage implements OnInit {
       createdDate: null,
       keyWords: '',
       photos: [],
+      latitude: null,
+      longitude: null
     };
   }
 
@@ -142,5 +145,11 @@ export class PostPage implements OnInit {
       this.post.photos.splice(index, 1);
     }
   }
-  
+
+  //get geolocation
+  async getGeolocation(){
+    const coordinates = await Geolocation.getCurrentPosition();
+    this.post.latitude = coordinates.coords.latitude;
+    this.post.longitude = coordinates.coords.longitude;
+  }
 }

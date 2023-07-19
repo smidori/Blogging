@@ -19,15 +19,19 @@ export class ManagePostPage implements OnInit {
     this.loadPosts();
   }
 
+  //load posts saved in local storage
   loadPosts() {
-    this.postService.getPosts().subscribe(
-      (posts: Post[]) => {
+    console.log("manage => loadPosts" )
+    this.postService.getPosts().pipe(
+      tap((posts: Post[]) => {
         this.posts = posts;
-      },
-      (error) => {
+      }),
+      catchError((error) => {
         console.error('Error fetching posts', error);
-      }
-    );
+        // Return an empty array
+        return [];
+      })
+    ).subscribe();
   }
 
   //navigate to page to edit the post

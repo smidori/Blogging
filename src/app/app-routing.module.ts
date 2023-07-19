@@ -4,8 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'list-post',
-    pathMatch: 'full'
+    loadChildren: () => import('./list-post/list-post.module').then( m => m.ListPostPageModule)
   },
   {
     path: 'folder/:id',

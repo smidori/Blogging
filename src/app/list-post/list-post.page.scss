@@ -9,33 +9,35 @@ ion-title {
   background-color: #272a2f;
 }
 
+/*Limite the size of image in the screen*/
 .image-container {
-    width: 60vh; 
-    height: 35vh;
-    
-    // overflow: hidden; /* hide the image if is bigger than div */
-  }
-  
-  /* Estilo para a imagem de fundo da div */
-  .image {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    // background-size: cover; /* Ajusta a imagem para cobrir toda a área da div */
-    // background-position: center; /* Centraliza a imagem na div */
-  }
+  width: 60vh;
+  height: 35vh;
+}
 
-  ion-card-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%; /* This will make the ion-card-content take up the entire height of the ion-card */
-  }
+/* Estilo para a imagem de fundo da div */
+.image {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
 
-  /* Add an underline to the link and change the colot to blue*/
-  .link-title {
-    color: blue; 
-    text-decoration: underline; 
-    cursor: pointer; 
-  }
+/* This will make the ion-card-content take up the entire height of the ion-card */
+ion-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Add an underline to the link and change the colot to blue*/
+.link-title {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+/*change to white the menu button*/
+.custom-menu-button {
+  --color: white; 
+}

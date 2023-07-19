@@ -22,6 +22,7 @@ export class ListPostPage implements OnInit {
 
   //load the post saved in the local storage
   loadPosts() {
+    console.log("list => loadPosts" )
     this.postService.getPosts().subscribe(
       (posts: Post[]) => {
         this.posts = posts;

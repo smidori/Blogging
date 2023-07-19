@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="dark-background">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button class="custom-menu-button"></ion-menu-button>
     </ion-buttons>
     <ion-title>{{ typeForm }} Post</ion-title>
   </ion-toolbar>
@@ -50,6 +50,13 @@
         <ion-button (click)="takeLowResolutionPhoto()">Capture Photo</ion-button>
       </ion-item>
       
+      <ion-item *ngIf="post.latitude && post.longitude">
+        <p>latitude: {{post.latitude}}, longitude: {{post.longitude}} </p>
+      </ion-item>
+
+      <ion-item *ngIf="!(post.latitude || post.longitude)">
+        <ion-button (click)="getGeolocation()">Get Location</ion-button>
+      </ion-item>
 
 
       <!-- Button to save the post -->

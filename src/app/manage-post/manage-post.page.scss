@@ -11,7 +11,12 @@ ion-title {
 
 /* Add an underline to the link and change the color to blue*/
 .link-title {
-    color: blue; 
-    text-decoration: underline; 
-    cursor: pointer; 
-  }
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/*change to white the menu button*/
+.custom-menu-button {
+  --color: white;
+}
