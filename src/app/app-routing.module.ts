@@ -10,6 +10,14 @@ const routes: Routes = [
   {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+  },
+  {
+    path: 'new-post',
+    loadChildren: () => import('./new-post/new-post.module').then( m => m.NewPostPageModule)
+  },
+  {
+    path: 'list-post',
+    loadChildren: () => import('./list-post/list-post.module').then( m => m.ListPostPageModule)
   }
 ];
 

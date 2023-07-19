@@ -1,0 +1,71 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Posts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- <ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-card *ngFor="let post of posts">
+        <ion-col size="12" size-md="1">
+          <ion-card-header>
+            <ion-card-title>{{ post.title }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="image-container" *ngIf="post.imageURLs && post.imageURLs.length > 0">
+              <div class="image" [style.background-image]="'url(' + post.imageURLs[0] + ')'"
+                [style.background-size]="'cover'" [style.background-position]="'center'"></div>
+            </div>
+            <p>{{ post.date | date: 'dd/MM/yyyy' }}</p>
+            <p>{{ post.content }}</p>
+          </ion-card-content>
+        </ion-col>
+      </ion-card>
+    </ion-row>
+  </ion-grid>
+</ion-content> -->
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ng-container *ngFor="let post of posts">
+        <!-- Adjust how many cards to show -->
+        <ion-col size="12" size-md="6" size-sm="12">
+          <ion-card>
+            <ion-card-header class="ion-text-center">
+              <ion-card-title>{{ post.title }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content class="ion-text-center">
+              <div class="image-container" *ngIf="post.photos && post.photos.length > 0">
+                <div class="image" [style.background-image]="'url(' + post.photos[0] + ')'"
+                  [style.background-size]="'cover'" [style.background-position]="'center'"></div>
+              </div>
+              <p>{{ post.summary }}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ng-container>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+
+<!-- <ion-content>
+  <ion-list>
+    <ion-item *ngFor="let post of posts">
+      <ion-label>
+        <h2>Title: {{ post.title }}</h2>
+        <p><b>Created Date: </b> {{ post.date | date: 'dd/MM/yyyy' }}</p>
+        <p><b>Keywords: </b> {{ post.keyWords }} </p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button (click)="editPost(post)">Editar</ion-button>
+        <ion-button (click)="deletePost(post)">Excluir</ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content> -->

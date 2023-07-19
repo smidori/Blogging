@@ -1,0 +1,23 @@
+.image-container {
+    width: 60vh; 
+    height: 35vh;
+    
+    // overflow: hidden; /* hide the image if is bigger than div */
+  }
+  
+  /* Estilo para a imagem de fundo da div */
+  .image {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    // background-size: cover; /* Ajusta a imagem para cobrir toda a área da div */
+    // background-position: center; /* Centraliza a imagem na div */
+  }
+
+  ion-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* This will make the ion-card-content take up the entire height of the ion-card */
+  }
