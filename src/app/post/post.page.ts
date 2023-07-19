@@ -73,7 +73,7 @@ export class PostPage implements OnInit {
   //take the picture in the small resolution, because it has been saved in the localstorage
   async takeLowResolutionPhoto() {
     const image = await Camera.getPhoto({
-      quality: 50,
+      quality: 20,
       resultType: CameraResultType.Base64,
       source: CameraSource.Camera,
       correctOrientation: true,
